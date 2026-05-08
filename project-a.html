@@ -8,6 +8,28 @@
     <h1>Project A: SQL Sales Analysis</h1>
     <p>In this project, I designed a relational database schema for a Hospital Management System using PostgreSQL. </p>
     <p>I focused on linking patient demographics with clinical visit records to streamline administrative tasks and improve patient care through proactive data monitoring. </p>
+    <p>Simply put, the goal is to reorganize patient information within different sheets, find patients and their contacts whom has yet to make the next appointment.</p>
+    <p>Lastly, prioritize patients that have their temperature abnormally high.</p>
+</p>
+    <p>First, I created a table that would bring the patients data sheet.</p>
+    <details>
+  <summary style="cursor: pointer; color: #1a73e8; font-weight: bold;">
+    Click here to see my SQL Code
+  </summary>
+  <div style="margin-top: 10px; background-color: #f4f4f4; padding: 15px; border-radius: 5px;">
+    <pre><code>
+      -- CREATE TABLE PATIENTS (
+	PATIENT_ID INT PRIMARY KEY,
+	FNAME VARCHAR(50) NOT NULL,
+	LNAME VARCHAR(50) NOT NULL,
+	GENDER VARCHAR(10),
+	DATE_OF_BIRTH DATE NOT NULL,
+	CONTACT_NO VARCHAR(20) UNIQUE,
+	PT_ADDRESS TEXT
+);
+    </code></pre>
+  </div>
+</details>
     <p><a href="index.html">Back to Home</a></p>
 </body>
 </html>
