@@ -25,14 +25,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-df = pd.read_csv('Diabetes_dataset.csv')
-
+df = pd.read_csv('diabetes_unclean.csv')
 df.head()
 # show 5 rows
 
 df.info()
+#Summary of the data read
 
 df.describe()
+#data statistics of each column
             </code></pre>
         </div>
     </details>
@@ -44,7 +45,7 @@ df.describe()
     </div>
 
     <h3>2. Data Cleaning: Null Values and Redundancy</h3>
-    <p>I performed a check for missing values to maintain data quality and removed duplicate entries based on Patient IDs.</p>
+    <p>I performed a check for missing values to maintain data quality and removed duplicate entries based on Patient IDs to ensure no single patient was double-counted.</p>
     
     <details>
         <summary style="cursor: pointer; color: #1a73e8; font-weight: bold;">
@@ -56,6 +57,7 @@ df.isna().sum()
 #Checking for null values
 
 df.dropna(inplace=True)
+#Removing rows with missing data
 
 df.drop_duplicates('Patient_ID', inplace=True)
 #Drop duplicate patients using their ID
@@ -72,7 +74,7 @@ df.duplicated().sum()
     </div>
 
     <h3>3. Categorical Validation and Manual Correction</h3>
-    <p>I identified a labeling error in the Gender column and corrected it using the patient's ID.</p>
+    <p>I identified a labeling error in the Gender column and corrected it using the patient's ID to maintain data quality.</p>
 
     <details>
         <summary style="cursor: pointer; color: #1a73e8; font-weight: bold;">
@@ -91,11 +93,11 @@ df.loc[df['Patient_ID']== 4543, 'Gender'] = 'F'
     </details>
     <div style="margin-top: 20px;">
         <p><i>Code Feedback:</i></p>
-        <img src="wrong_row.png" alt="Output of identifying wrong row" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px;">
+        <img src="wrong_row_output.png" alt="Output of finding the wrong row" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px;">
     </div>
 
     <h3>4. Feature Engineering: Diabetes Status Mapping</h3>
-    <p>I created a new status column based on HbA1c levels to categorize patients by their clinical risk level.</p>
+    <p>I categorized patients by creating clinical labels based on HbA1c levels, allowing for easier analysis of diabetic populations.</p>
 
     <details>
         <summary style="cursor: pointer; color: #1a73e8; font-weight: bold;">
@@ -112,7 +114,6 @@ values = ['Normal', 'Pre-diabetes', 'Diabetes']
 #Create a condition to label diabetes status.
 
 df['Diabetes_Status'] = np.select(conditions, values, default='Unknown')
-
 df
 #Created a new column Diabetes_Status using the condition we just made.
             </code></pre>
@@ -120,7 +121,7 @@ df
     </details>
     <div style="margin-top: 20px;">
         <p><i>Code Feedback:</i></p>
-        <img src="df_with_status.png" alt="Output showing the new DataFrame column" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px;">
+        <img src="df_new_column.png" alt="Output of the DataFrame with the new status column" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px;">
     </div>
 
     <h3>5. General Population Demographics</h3>
@@ -143,7 +144,7 @@ plt.show()
     </details>
     <div style="margin-top: 20px;">
         <p><i>Code Feedback:</i></p>
-        <img src="overall_gender_pie.png" alt="Pie Chart of Gender Distribution" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px;">
+        <img src="total_gender_pie.png" alt="Overall Gender Pie Chart" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px;">
     </div>
 
     <h3>6. Age Stratification and Senior Risk Factors</h3>
@@ -183,8 +184,29 @@ plt.show()
     </details>
     <div style="margin-top: 20px;">
         <p><i>Code Feedback:</i></p>
-        <img src="age_countplot.png" alt="Countplot of Age Divisions" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 15px;">
-        <img src="senior_gender_pie.png" alt="Pie Chart of Senior Gender Distribution" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px;">
+        <img src="age_countplot.png" alt="Age Countplot" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 15px;">
+        <img src="senior_pie.png" alt="Senior Gender Pie Chart" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px;">
+    </div>
+
+    <h3>7. Final Analysis Verification</h3>
+    <p>To conclude, I generated final counts to verify the population sizes and ensure the data stratification was accurate.</p>
+
+    <details>
+        <summary style="cursor: pointer; color: #1a73e8; font-weight: bold;">
+            Click here to see my Python Code
+        </summary>
+        <div style="margin-top: 10px; background-color: #f4f4f4; padding: 15px; border-radius: 5px;">
+            <pre><code>
+print(f"Total number of Patients: {len(df)}")
+print(f"Total number of Elders: {len(df[df['AGE']>=50])}")
+print(f"Total Diabetic Patients: {len(df[df['Diabetes_Status'] == 'Diabetes'])}")
+print(f"Senior Diabetic Patients: {len(diabetes_by_gender_Senior)}")
+            </code></pre>
+        </div>
+    </details>
+    <div style="margin-top: 20px;">
+        <p><i>Code Feedback:</i></p>
+        <img src="final_counts.png" alt="Output of final print verification statements" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px;">
     </div>
 
     <p style="margin-top: 50px;">
