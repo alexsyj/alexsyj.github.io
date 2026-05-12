@@ -11,9 +11,39 @@
     <p>I focused on data cleaning, feature engineering based on clinical thresholds (HbA1c), and demographic stratification to pinpoint high-risk patient segments.</p>
     <p>The goal was to transform raw physiological data into actionable medical insights, specifically exploring the correlation between age, gender, and diabetic status.</p>
 
-    <!-- Section 1: Duplicates -->
-    <h3>1. Eliminating Redundancy and Data Integrity</h3>
-    <p>To ensure each record represents a unique clinical case, I removed duplicate entries based on Patient IDs and performed a global audit for identical rows.</p>
+    <!-- Section 1: Setup & Exploration -->
+    <h3>1. Environment Setup and Data Exploration</h3>
+    <p>I began by importing the necessary libraries and loading the dataset to inspect its structure and initial statistical distribution.</p>
+    
+    <details>
+        <summary style="cursor: pointer; color: #1a73e8; font-weight: bold;">
+            Click here to see my Python Code
+        </summary>
+        <div style="margin-top: 10px; background-color: #f4f4f4; padding: 15px; border-radius: 5px;">
+            <pre><code>
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df = pd.read_csv('Diabetes_dataset.csv')
+
+df.head()
+df.info()
+df.describe()
+            </code></pre>
+        </div>
+    </details>
+    <div style="margin-top: 20px;">
+        <p><i>Initial Data Inspection Results:</i></p>
+        <img src="df_head.png" alt="Head Table" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 10px;">
+        <img src="df_info.png" alt="Info Summary" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 10px;">
+        <img src="df_describe.png" alt="Statistical Describe" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px;">
+    </div>
+
+    <!-- Section 2: Duplicates -->
+    <h3>2. Eliminating Redundancy and Data Integrity</h3>
+    <p>To ensure each record represents a unique clinical case, I removed duplicate entries based on Patient IDs and checked for overall row redundancy.</p>
     
     <details>
         <summary style="cursor: pointer; color: #1a73e8; font-weight: bold;">
@@ -30,13 +60,13 @@ df.duplicated().sum()
         </div>
     </details>
     <div style="margin-top: 20px;">
-        <p><i>Execution Result:</i></p>
-        <img src="duplicate_result.png" alt="Screenshot of duplicate check" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px;">
+        <p><i>Audit Result:</i></p>
+        <img src="duplicate_result.png" alt="Duplicate Check" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px;">
     </div>
 
-    <!-- Section 2: Manual Correction -->
-    <h3>2. Categorical Validation and Manual Correction</h3>
-    <p>I conducted a targeted search for inconsistencies in the Gender column and manually corrected specific patient records to ensure consistency.</p>
+    <!-- Section 3: Manual Correction -->
+    <h3>3. Categorical Validation and Manual Correction</h3>
+    <p>I identified a labeling error in the Gender column and corrected it using the patient's ID to maintain data quality.</p>
 
     <details>
         <summary style="cursor: pointer; color: #1a73e8; font-weight: bold;">
@@ -55,12 +85,12 @@ df.loc[df['Patient_ID']== 4543, 'Gender'] = 'F'
     </details>
     <div style="margin-top: 20px;">
         <p><i>Correction Result:</i></p>
-        <img src="gender_fix_table.png" alt="Screenshot of corrected data row" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px;">
+        <img src="gender_fix_table.png" alt="Corrected Gender Row" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px;">
     </div>
 
-    <!-- Section 3: Feature Engineering -->
-    <h3>3. Feature Engineering: Diabetes Status Mapping</h3>
-    <p>I created a new status column based on HbA1c levels to categorize patients by their clinical risk level.</p>
+    <!-- Section 4: Feature Engineering -->
+    <h3>4. Feature Engineering: Diabetes Status Mapping</h3>
+    <p>I categorized patients by creating clinical labels based on HbA1c levels, allowing for easier analysis of diabetic populations.</p>
 
     <details>
         <summary style="cursor: pointer; color: #1a73e8; font-weight: bold;">
@@ -83,13 +113,13 @@ df
         </div>
     </details>
     <div style="margin-top: 20px;">
-        <p><i>Updated DataFrame:</i></p>
-        <img src="status_column_output.png" alt="Screenshot of new status column" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px;">
+        <p><i>New Feature Output:</i></p>
+        <img src="status_column_output.png" alt="New Column Table" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px;">
     </div>
 
-    <!-- Section 4: General Gender Analysis -->
-    <h3>4. Gender Distribution Analysis</h3>
-    <p>I visualized the gender split of the entire dataset to understand the demographic balance of the study.</p>
+    <!-- Section 5: Overall Gender Split -->
+    <h3>5. General Population Demographics</h3>
+    <p>I visualized the gender balance of the entire dataset before diving into specific health statuses.</p>
 
     <details>
         <summary style="cursor: pointer; color: #1a73e8; font-weight: bold;">
@@ -107,13 +137,13 @@ plt.show()
         </div>
     </details>
     <div style="margin-top: 20px;">
-        <p><i>Visualization Output:</i></p>
-        <img src="total_gender_pie.png" alt="Pie chart of gender distribution" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px;">
+        <p><i>Visual Result:</i></p>
+        <img src="total_gender_pie.png" alt="Overall Gender Pie Chart" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px;">
     </div>
 
-    <!-- Section 5: Senior Demographic Focus -->
-    <h3>5. Age Stratification and Senior Risk</h3>
-    <p>By filtering for patients age 50 and older, I analyzed the gender distribution within the highest-risk group.</p>
+    <!-- Section 6: Senior Risk Analysis -->
+    <h3>6. Age Stratification and Senior Risk Factors</h3>
+    <p>I used count plots and filtered pie charts to show how diabetes disproportionately affects the senior population.</p>
 
     <details>
         <summary style="cursor: pointer; color: #1a73e8; font-weight: bold;">
@@ -146,9 +176,9 @@ plt.show()
         </div>
     </details>
     <div style="margin-top: 20px;">
-        <p><i>Visualization Output:</i></p>
-        <img src="age_countplot.png" alt="Countplot of age groups" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 10px;">
-        <img src="senior_pie.png" alt="Pie chart of senior gender distribution" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px;">
+        <p><i>Visualization Insights:</i></p>
+        <img src="age_countplot.png" alt="Age Countplot" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 10px;">
+        <img src="senior_pie.png" alt="Senior Gender Pie Chart" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px;">
     </div>
 
     <!-- Navigation -->
