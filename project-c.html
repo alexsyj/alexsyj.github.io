@@ -41,9 +41,9 @@ df.describe()
         <img src="df_describe.png" alt="Statistical Describe" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px;">
     </div>
 
-    <!-- Section 2: Duplicates -->
-    <h3>2. Eliminating Redundancy and Data Integrity</h3>
-    <p>To ensure each record represents a unique clinical case, I removed duplicate entries based on Patient IDs and checked for overall row redundancy.</p>
+    <!-- Section 2: Null Values & Duplicates -->
+    <h3>2. Data Cleaning: Null Values and Redundancy</h3>
+    <p>I performed a check for missing values to maintain data quality and removed duplicate entries based on Patient IDs to ensure no single patient was double-counted.</p>
     
     <details>
         <summary style="cursor: pointer; color: #1a73e8; font-weight: bold;">
@@ -51,6 +51,12 @@ df.describe()
         </summary>
         <div style="margin-top: 10px; background-color: #f4f4f4; padding: 15px; border-radius: 5px;">
             <pre><code>
+df.isna().sum()
+#Checking for null values
+
+df.dropna(inplace=True)
+#Removing rows with missing data
+
 df.drop_duplicates('Patient_ID', inplace=True)
 #Drop duplicate patients using their ID
 
@@ -60,7 +66,8 @@ df.duplicated().sum()
         </div>
     </details>
     <div style="margin-top: 20px;">
-        <p><i>Audit Result:</i></p>
+        <p><i>Cleaning Audit Result:</i></p>
+        <img src="isna_check.png" alt="Null Check Result" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 10px;">
         <img src="duplicate_result.png" alt="Duplicate Check" style="max-width: 100%; height: auto; border: 1px solid #ccc; border-radius: 5px;">
     </div>
 
